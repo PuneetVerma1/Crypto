@@ -1,0 +1,46 @@
+<div class="sample-wrapper">
+    <igx-input-group type="search" class="search">
+        <igx-prefix>
+            <igx-icon>search</igx-icon>
+        </igx-prefix>
+        <input #search igxInput placeholder="Search by name" [(ngModel)]="searchCrypto">
+        <igx-suffix *ngIf="search.value.length > 0" (click)="searchCrypto = null">
+            <igx-icon>clear</igx-icon>
+        </igx-suffix>
+    </igx-input-group>
+
+    <div class="list-sample">
+        <igx-list [@listAnimation]="remoteData.length">
+            <igx-list-item isHeader="true">Cryptocurrencies</igx-list-item>
+            <igx-list-item #item *ngFor="let crypto of remoteData | igxFilter: filterCryptos;">
+                <div class="crypto">
+                    <div class="crypto__info">
+                        <span class="crypto__item">
+
+                            <div class="crypto__name">
+                              <igx-avatar size="small" class="crypto__avatar" src="{{ getCoinImage(crypto['imageUrl']) }}" roundShape="true"></igx-avatar>
+                              <span>
+                                  {{ crypto['fullName'] }}
+                              </span>
+                            </div>
+
+                            <div class="crypto__details">
+                              <span class="crypto__price">${{ crypto['price'] | number: '1.0-3' }}</span>
+
+                              <span class="percent-style-{{ crypto['changePct24Hour'] >= 0 ? 'up' : 'down'}}">
+                                  {{ crypto['changePct24Hour'] | number: '0.0-2' }} %
+                              </span>
+
+                              <igx-icon [color]="crypto['changePct24Hour'] >= 0 ? 'green' : 'red'">
+                                    {{ crypto['changePct24Hour'] >= 0 ? 'arrow_drop_up' : 'arrow_drop_down'}}
+                              </igx-icon>
+
+                              <span class="li_item">(24h)</span>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </igx-list-item>
+        </igx-list>
+    </div>
+</div>
